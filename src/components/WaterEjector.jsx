@@ -146,10 +146,7 @@ const WaterEjector = () => {
       {/* Main Content */}
       <main className="flex-1 w-full max-w-lg mx-auto flex flex-col items-center justify-center p-6 space-y-8">
         <div className="text-center space-y-4">
-          <h2 className="text-xl font-medium">Remove water from your phone&apos;s speaker</h2>
-          <p style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>
-            Place your phone speaker-side down and tap the button below
-          </p>
+          <h2 className="text-xl font-medium">Remove water from your device&apos;s speaker</h2>
         </div>
 
         {/* Ejector Button */}
@@ -190,7 +187,7 @@ const WaterEjector = () => {
 
         {/* Status Text */}
         <p style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>
-          {isPlaying ? 'Ejecting water...' : 'Ready'}
+          {isPlaying ? 'Ejecting water...' : 'Tap the button to eject water'}
         </p>
       </main>
 
