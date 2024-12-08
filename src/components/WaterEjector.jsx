@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Moon, Sun, Droplet } from 'lucide-react';
+import CoffeeButton from './CoffeeButton';
 
 const WaterEjector = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -233,8 +234,9 @@ const WaterEjector = () => {
       >
         <p>© 2024 Water Ejector. All rights reserved.</p>
       </footer>
-    </div>
-  );
+      <CoffeeButton />
+  </div>
+);
 };
 
 export default WaterEjector;
