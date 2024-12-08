@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Droplet, ArrowLeft } from 'lucide-react';
+import { Moon, Sun, Droplet } from 'lucide-react';
 
 const WaterEjector = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -189,6 +189,43 @@ const WaterEjector = () => {
           {isPlaying ? 'Ejecting water...' : 'Tap the button to eject water'}
         </p>
       </main>
+
+      {/* FAQ Section */}
+      <section className="w-full max-w-2xl mx-auto px-6 py-12">
+        <h2 className="text-2xl font-semibold mb-8">Frequently Asked Questions</h2>
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-lg font-medium mb-2">How do I get water out of my phone speaker?</h3>
+            <p style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>
+              To remove water from your phone speaker: 1) Place your phone speaker-side down, 2) Click the water eject button above, 3) Wait for the sound sequence to complete. The sound waves will help push water out of your speaker.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium mb-2">Does this really work to get water out of phone speakers?</h3>
+            <p style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>
+              Yes! This tool uses the same technology as the Apple Watch&apos;s water ejection feature. It plays a specific frequency that creates vibrations to physically push water out of your device&apos;s speaker grilles.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium mb-2">What types of phones does this work with?</h3>
+            <p style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>
+              This water ejection tool works with all phones, including iPhones, Samsung Galaxy, Google Pixel, and other Android devices. It&apos;s a universal solution that works through your device&apos;s speaker.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium mb-2">Is it safe to use this water removal tool?</h3>
+            <p style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>
+              Yes, this tool is completely safe. It uses the same technology as Apple&apos;s built-in water ejection feature. The sound waves are harmless and can&apos;t damage your device&apos;s speaker or other components.
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-medium mb-2">How many times should I use the water eject feature?</h3>
+            <p style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>
+              If water is still present after the first use, you can safely run the water ejection sequence 2-3 times. Make sure to keep your phone speaker-side down between attempts to let gravity help remove the water.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="w-full p-6 text-center text-sm" 
