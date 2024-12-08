@@ -125,11 +125,10 @@ const WaterEjector = () => {
           <h1 className="text-2xl font-semibold">Water Ejector</h1>
           {showSilentWarning && (
             <div 
-              className="absolute -left-12 top-1/2 -translate-y-1/2 flex items-center text-sm"
-              style={{ color: colors.warning }}
+              className="text-xs mt-1 flex items-center gap-1"
+              style={{ color: 'rgb(255, 149, 0)' }}
             >
-              <ArrowLeft size={16} className="animate-pulse" />
-              <span className="ml-1">Silent Off</span>
+              <span className="animate-pulse">Turn off silent mode</span>
             </div>
           )}
         </div>
