@@ -175,7 +175,6 @@ const WaterEjector = () => {
           >
             <Droplet 
               size={64} 
-              fill="white"
               className="transition-transform"
               style={{
                 color: 'white',
