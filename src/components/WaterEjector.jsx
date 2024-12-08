@@ -15,6 +15,13 @@ const WaterEjector = () => {
 
   const playWaterEjectionSound = async () => {
     if (isPlaying) return;
+    // Track button click in Google Analytics
+    if (typeof window.gtag !== 'undefined') {
+      window.gtag('event', 'water_ejection', {
+        'event_category': 'user_interaction',
+        'event_label': 'eject_water_button_clicked'
+      });
+    }
     
     setIsPlaying(true);
     
