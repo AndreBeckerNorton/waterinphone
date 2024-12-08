@@ -5,16 +5,36 @@ const WaterEjector = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioContext, setAudioContext] = useState(null);
+  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
+    // Check if device is iOS
+    const ios = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    setIsIOS(ios);
+    
     // Check system dark mode preference
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       setIsDarkMode(true);
     }
   }, []);
 
+  const initializeAudioContext = () => {
+    if (!audioContext) {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      setAudioContext(ctx);
+      
+      // For iOS, we need to resume the context after initialization
+      if (isIOS && ctx.state === 'suspended') {
+        ctx.resume();
+      }
+    } else if (isIOS && audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
+  };
+
   const playWaterEjectionSound = async () => {
     if (isPlaying) return;
+    
     // Track button click in Google Analytics
     if (typeof window.gtag !== 'undefined') {
       window.gtag('event', 'water_ejection', {
@@ -22,10 +42,12 @@ const WaterEjector = () => {
         'event_label': 'eject_water_button_clicked'
       });
     }
-    
+
     setIsPlaying(true);
     
-    // Create audio context if it doesn't exist
+    // Initialize or resume AudioContext
+    initializeAudioContext();
+    
     const ctx = audioContext || new (window.AudioContext || window.webkitAudioContext)();
     if (!audioContext) setAudioContext(ctx);
     
@@ -70,6 +92,14 @@ const WaterEjector = () => {
     setTimeout(() => setIsPlaying(false), 4000);
   };
 
+  const handleButtonClick = () => {
+    // For iOS, we need to initialize audio context on first click
+    if (isIOS && (!audioContext || audioContext.state === 'suspended')) {
+      initializeAudioContext();
+    }
+    playWaterEjectionSound();
+  };
+
   return (
     <div className={`min-h-screen flex flex-col items-center justify-between ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
       {/* Header */}
@@ -86,7 +116,7 @@ const WaterEjector = () => {
       {/* Main Content */}
       <main className="flex-1 w-full max-w-lg mx-auto flex flex-col items-center justify-center p-6 space-y-8">
         <div className="text-center space-y-4">
-          <h2 className="text-xl font-medium">Remove water from your device speakers</h2>
+          <h2 className="text-xl font-medium">Remove water from your phone&apos;s speaker</h2>
           <p className="text-gray-600 dark:text-gray-400">
             Place your phone speaker-side down and tap the button below
           </p>
@@ -94,7 +124,7 @@ const WaterEjector = () => {
 
         {/* Ejector Button */}
         <button
-          onClick={playWaterEjectionSound}
+          onClick={handleButtonClick}
           disabled={isPlaying}
           className={`w-32 h-32 rounded-full flex items-center justify-center transition-all transform
             ${isDarkMode 
