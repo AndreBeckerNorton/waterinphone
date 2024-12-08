@@ -1,16 +1,29 @@
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Droplet } from 'lucide-react';
+import { Moon, Sun, Droplet, ArrowLeft } from 'lucide-react';
 
 const WaterEjector = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioContext, setAudioContext] = useState(null);
   const [isIOS, setIsIOS] = useState(false);
+  const [showSilentWarning, setShowSilentWarning] = useState(false);
+
+  // Apple official colors
+  const colors = {
+    darkBg: '#000000',          // Apple dark mode background
+    darkSecondary: '#1C1C1E',   // Apple dark mode secondary
+    lightBg: '#F5F5F7',         // Apple light mode background
+    lightSecondary: '#FFFFFF',   // Apple light mode secondary
+    buttonLight: 'rgba(0, 122, 255, 0.9)',  // Apple blue with transparency
+    buttonDark: 'rgba(10, 132, 255, 0.9)',  // Apple dark mode blue with transparency
+    warning: '#FF9500'          // Apple orange
+  };
 
   useEffect(() => {
     // Check if device is iOS
     const ios = /iPad|iPhone|iPod/.test(navigator.userAgent);
     setIsIOS(ios);
+    setShowSilentWarning(ios);
     
     // Check system dark mode preference
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -23,7 +36,6 @@ const WaterEjector = () => {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
       setAudioContext(ctx);
       
-      // For iOS, we need to resume the context after initialization
       if (isIOS && ctx.state === 'suspended') {
         ctx.resume();
       }
@@ -93,7 +105,6 @@ const WaterEjector = () => {
   };
 
   const handleButtonClick = () => {
-    // For iOS, we need to initialize audio context on first click
     if (isIOS && (!audioContext || audioContext.state === 'suspended')) {
       initializeAudioContext();
     }
@@ -101,13 +112,33 @@ const WaterEjector = () => {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-between ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div 
+      className="min-h-screen flex flex-col items-center justify-between transition-colors duration-300"
+      style={{
+        backgroundColor: isDarkMode ? colors.darkBg : colors.lightBg,
+        color: isDarkMode ? '#FFFFFF' : '#000000'
+      }}
+    >
       {/* Header */}
       <header className="w-full p-6 flex justify-between items-center">
-        <h1 className="text-2xl font-semibold">Water Ejector</h1>
+        <div className="relative">
+          <h1 className="text-2xl font-semibold">Water Ejector</h1>
+          {showSilentWarning && (
+            <div 
+              className="absolute -left-12 top-1/2 -translate-y-1/2 flex items-center text-sm"
+              style={{ color: colors.warning }}
+            >
+              <ArrowLeft size={16} className="animate-pulse" />
+              <span className="ml-1">Silent Off</span>
+            </div>
+          )}
+        </div>
         <button
           onClick={() => setIsDarkMode(!isDarkMode)}
-          className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          className="p-2 rounded-full transition-colors"
+          style={{
+            backgroundColor: isDarkMode ? colors.darkSecondary : colors.lightSecondary
+          }}
         >
           {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
         </button>
@@ -117,7 +148,7 @@ const WaterEjector = () => {
       <main className="flex-1 w-full max-w-lg mx-auto flex flex-col items-center justify-center p-6 space-y-8">
         <div className="text-center space-y-4">
           <h2 className="text-xl font-medium">Remove water from your phone&apos;s speaker</h2>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>
             Place your phone speaker-side down and tap the button below
           </p>
         </div>
@@ -126,27 +157,48 @@ const WaterEjector = () => {
         <button
           onClick={handleButtonClick}
           disabled={isPlaying}
-          className={`w-32 h-32 rounded-full flex items-center justify-center transition-all transform
-            ${isDarkMode 
-              ? 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700' 
-              : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800'
-            }
-            ${isPlaying ? 'scale-95 opacity-80' : 'scale-100 opacity-100'}
-            disabled:opacity-50 disabled:cursor-not-allowed`}
+          className="relative w-32 h-32 rounded-full flex items-center justify-center transition-all transform disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-md"
+          style={{
+            backgroundColor: isDarkMode ? 'rgba(100, 210, 255, 0.80)' : 'rgba(50, 173, 230, 0.80)',
+            transform: isPlaying ? 'scale(0.95)' : 'scale(1)',
+            opacity: isPlaying ? '0.8' : '1',
+            boxShadow: `0 0 20px ${isDarkMode ? 'rgba(10, 132, 255, 0.2)' : 'rgba(0, 122, 255, 0.2)'}`,
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)'
+          }}
         >
-          <div className={`transition-transform ${isPlaying ? 'animate-bounce' : ''}`}>
-            <Droplet size={48} color="white" />
+          <div 
+            className={`absolute inset-0 rounded-full ${isPlaying ? 'animate-[ping_0.3s_ease-in-out_10]' : ''}`}
+            style={{
+              backgroundColor: isDarkMode ? colors.buttonDark : colors.buttonLight,
+              opacity: isPlaying ? '0.2' : '0'
+            }} 
+          />
+          <div 
+            className={`relative z-10 ${isPlaying ? 'animate-[pulse_0.3s_ease-in-out_10]' : ''}`}
+          >
+            <Droplet 
+              size={64} 
+              fill="white"
+              className="transition-transform"
+              style={{
+                color: 'white',
+                filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))'
+              }}
+            />
           </div>
         </button>
 
         {/* Status Text */}
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        <p style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}>
           {isPlaying ? 'Ejecting water...' : 'Ready'}
         </p>
       </main>
 
       {/* Footer */}
-      <footer className="w-full p-6 text-center text-sm text-gray-600 dark:text-gray-400">
+      <footer className="w-full p-6 text-center text-sm" 
+        style={{ color: isDarkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)' }}
+      >
         <p>© 2024 Water Ejector. All rights reserved.</p>
       </footer>
     </div>
