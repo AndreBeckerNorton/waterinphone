@@ -15,22 +15,37 @@ export default defineConfig({
         unsafe: true,
         unsafe_comps: true,
         unsafe_math: true,
-        unsafe_methods: true
+        unsafe_methods: true,
+        unsafe_proto: true,
+        unsafe_regexp: true,
+        unsafe_undefined: true
       },
       mangle: {
         properties: false
+      },
+      format: {
+        comments: false,
+        preserve_annotations: false
       }
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-router': ['react-router-dom'],
-          'vendor-markdown': ['markdown-to-jsx'],
-          'blog': [
-            './src/pages/blog/BlogList.jsx',
-            './src/pages/blog/BlogPost.jsx'
-          ]
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('scheduler') || id.includes('prop-types')) {
+              return 'vendor-react';
+            }
+            if (id.includes('react-router') || id.includes('react-router-dom') || id.includes('@remix-run')) {
+              return 'vendor-router';
+            }
+            if (id.includes('markdown-to-jsx')) {
+              return 'vendor-markdown';
+            }
+            return 'vendor';
+          }
+          if (id.includes('src/pages/blog')) {
+            return 'blog';
+          }
         },
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith('.css')) {
@@ -45,10 +60,16 @@ export default defineConfig({
     cssCodeSplit: true,
     sourcemap: false,
     assetsInlineLimit: 4096,
-    reportCompressedSize: false
+    reportCompressedSize: false,
+    chunkSizeWarningLimit: 1000,
+    emptyOutDir: true
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom'
+    ],
     exclude: ['markdown-to-jsx']
   },
   server: {
