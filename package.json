@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.0",
+    "markdown-to-jsx": "^7.3.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
