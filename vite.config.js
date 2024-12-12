@@ -8,22 +8,28 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: false,
-        passes: 2
+        drop_console: true,
+        passes: 2,
+        pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        unsafe_math: true,
+        unsafe_methods: true
+      },
+      mangle: {
+        properties: false
       }
     },
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor': [
-            'react',
-            'react-dom',
-            'react-router-dom'
-          ],
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-router': ['react-router-dom'],
+          'vendor-markdown': ['markdown-to-jsx'],
           'blog': [
             './src/pages/blog/BlogList.jsx',
-            './src/pages/blog/BlogPost.jsx',
-            'markdown-to-jsx'
+            './src/pages/blog/BlogPost.jsx'
           ]
         },
         assetFileNames: (assetInfo) => {
@@ -38,9 +44,15 @@ export default defineConfig({
     },
     cssCodeSplit: true,
     sourcemap: false,
-    assetsInlineLimit: 4096
+    assetsInlineLimit: 4096,
+    reportCompressedSize: false
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom']
+    include: ['react', 'react-dom', 'react-router-dom'],
+    exclude: ['markdown-to-jsx']
+  },
+  server: {
+    open: true,
+    cors: true
   }
 })
