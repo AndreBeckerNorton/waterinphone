@@ -14,7 +14,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.0",
-    "markdown-to-jsx": "^7.3.2"
+    "markdown-to-jsx": "^7.3.2",
+    "terser": "^5.27.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
