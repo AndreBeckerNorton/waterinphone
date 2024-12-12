@@ -14,7 +14,11 @@ export default function BlogList() {
             key={post.slug} 
             className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
           >
-            <Link to={`/blog/${post.slug}`} className="space-y-4 block">
+            <Link 
+              to={`/blog/${post.slug}`} 
+              className="space-y-4 block"
+              aria-label={`Read article: ${post.title}`}
+            >
               <h2 className="text-2xl font-medium tracking-tight text-gray-900">
                 {post.title}
               </h2>
