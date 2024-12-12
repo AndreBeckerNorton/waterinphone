@@ -110,29 +110,21 @@ const WaterEjector = () => {
 
         {/* Ejector Button */}
         <button
-          onClick={handleButtonClick}
-          disabled={isPlaying}
-          className="relative w-32 h-32 rounded-full flex items-center justify-center transition-all transform disabled:opacity-50 disabled:cursor-not-allowed"
+          className={`relative w-32 h-32 rounded-full flex items-center justify-center transition-all duration-300 ${
+            isPlaying ? 'scale-95' : 'scale-100'
+          }`}
           style={{
-            backgroundColor: 'rgba(50, 173, 230, 0.80)',
-            transform: isPlaying ? 'scale(0.95)' : 'scale(1)',
-            opacity: isPlaying ? '0.8' : '1',
-            boxShadow: '0 0 20px rgba(0, 122, 255, 0.3)',
+            backgroundColor: 'rgba(50, 173, 230, 0.8)',
+            transform: buttonScale,
           }}
+          onClick={handleButtonClick}
+          aria-label={isPlaying ? "Stop water ejection" : "Start water ejection"}
+          aria-pressed={isPlaying}
+          title={isPlaying ? "Click to stop ejecting water" : "Click to eject water from your phone's speaker"}
         >
-          <div 
-            className={`absolute inset-0 rounded-full ${isPlaying ? 'animate-[ping_0.3s_ease-in-out_10]' : ''}`}
-            style={{
-              backgroundColor: 'rgba(0, 122, 255, 0.9)',
-              opacity: isPlaying ? '0.2' : '0'
-            }} 
-          />
-          <div className={`relative z-10 ${isPlaying ? 'animate-[pulse_0.3s_ease-in-out_10]' : ''}`}>
-            <Droplet 
-              size={64} 
-              className="text-white drop-shadow-lg"
-              loading="lazy"
-            />
+          <div className="absolute inset-0 rounded-full bg-white/20 animate-ping" />
+          <div className="relative z-10 text-white text-lg font-medium">
+            {isPlaying ? 'Stop' : 'Eject'}
           </div>
         </button>
 
