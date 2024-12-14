@@ -98,75 +98,176 @@ const WaterEjector = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-between bg-[#F5F5F7]">
       {/* Main Content */}
-      <main className="flex-1 w-full max-w-lg mx-auto flex flex-col items-center justify-center p-6 space-y-8">
-        <div className="text-center space-y-4">
-          <h1 className="text-2xl font-semibold text-gray-900">Water Ejector</h1>
+      <main className="flex-1 w-full max-w-4xl mx-auto flex flex-col items-center justify-center p-6 space-y-12">
+        {/* Hero Section */}
+        <div className="text-center space-y-4 max-w-2xl">
+          <h1 className="text-4xl font-semibold text-gray-900">Water Ejector</h1>
+          <p className="text-xl text-gray-600">
+            Got water in your phone? Our advanced water ejection tool uses precisely calibrated sound frequencies to safely remove water from your device's speakers.
+          </p>
           {showSilentWarning && (
-            <div className="text-xs mt-1 flex items-center justify-center gap-1 text-[#FF9500]">
-              <span className="animate-pulse">Turn off silent mode</span>
+            <div className="text-sm mt-1 flex items-center justify-center gap-1 text-[#FF9500]">
+              <span className="animate-pulse">Turn off silent mode for best results</span>
             </div>
           )}
         </div>
 
         {/* Ejector Button */}
-        <button
-          onClick={handleButtonClick}
-          disabled={isPlaying}
-          className="relative w-32 h-32 rounded-full flex items-center justify-center transition-all transform disabled:opacity-50 disabled:cursor-not-allowed"
-          style={{
-            backgroundColor: 'rgba(50, 173, 230, 0.80)',
-            transform: isPlaying ? 'scale(0.95)' : 'scale(1)',
-            opacity: isPlaying ? '0.8' : '1',
-            boxShadow: '0 0 20px rgba(0, 122, 255, 0.3)',
-          }}
-          aria-label={isPlaying ? "Stop water ejection" : "Start water ejection"}
-          aria-pressed={isPlaying}
-          title={isPlaying ? "Click to stop ejecting water" : "Click to eject water from your phone's speaker"}
-        >
-          <div 
-            className={`absolute inset-0 rounded-full ${isPlaying ? 'animate-[ping_0.3s_ease-in-out_10]' : ''}`}
+        <div className="relative">
+          <button
+            onClick={handleButtonClick}
+            disabled={isPlaying}
+            className="relative w-40 h-40 rounded-full flex items-center justify-center transition-all transform disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
-              backgroundColor: 'rgba(0, 122, 255, 0.9)',
-              opacity: isPlaying ? '0.2' : '0'
-            }} 
-          />
-          <div className={`relative z-10 ${isPlaying ? 'animate-[pulse_0.3s_ease-in-out_10]' : ''}`}>
-            <Droplet 
-              size={64} 
-              className="text-white drop-shadow-lg"
-              loading="lazy"
+              backgroundColor: 'rgba(50, 173, 230, 0.80)',
+              transform: isPlaying ? 'scale(0.95)' : 'scale(1)',
+              opacity: isPlaying ? '0.8' : '1',
+              boxShadow: '0 0 20px rgba(0, 122, 255, 0.3)',
+            }}
+            aria-label={isPlaying ? "Stop water ejection" : "Start water ejection"}
+            aria-pressed={isPlaying}
+            title={isPlaying ? "Click to stop ejecting water" : "Click to eject water from your phone's speaker"}
+          >
+            <div 
+              className={`absolute inset-0 rounded-full ${isPlaying ? 'animate-[ping_0.3s_ease-in-out_10]' : ''}`}
+              style={{
+                backgroundColor: 'rgba(0, 122, 255, 0.9)',
+                opacity: isPlaying ? '0.2' : '0'
+              }} 
             />
-          </div>
-        </button>
+            <div className={`relative z-10 ${isPlaying ? 'animate-[pulse_0.3s_ease-in-out_10]' : ''}`}>
+              <Droplet 
+                size={80} 
+                className="text-white drop-shadow-lg"
+                loading="lazy"
+              />
+            </div>
+          </button>
+        </div>
 
         {/* Status Text */}
-        <p className="text-gray-600 text-center">
-          {isPlaying ? 'Ejecting water...' : 'Tap the button to eject water. For the best results, ensure the volume on your device is set to maximum.'}
+        <p className="text-gray-600 text-center max-w-lg">
+          {isPlaying ? 'Ejecting water...' : 'Tap the button to eject water. For the best results, ensure the volume on your device is set to maximum and silent mode is turned off.'}
         </p>
+
+        {/* Quick Tips */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl mt-12">
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 className="text-lg font-medium mb-2 text-gray-900">Before You Start</h3>
+            <ul className="space-y-2 text-gray-600">
+              <li>• Maximum volume recommended</li>
+              <li>• Remove phone case if possible</li>
+              <li>• Keep device upright</li>
+              <li>• Disable silent mode</li>
+            </ul>
+          </div>
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 className="text-lg font-medium mb-2 text-gray-900">During Process</h3>
+            <ul className="space-y-2 text-gray-600">
+              <li>• Wait for full cycle</li>
+              <li>• Keep device still</li>
+              <li>• Watch for water droplets</li>
+              <li>• Repeat if necessary</li>
+            </ul>
+          </div>
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 className="text-lg font-medium mb-2 text-gray-900">After Ejection</h3>
+            <ul className="space-y-2 text-gray-600">
+              <li>• Test speaker sound</li>
+              <li>• Check all openings</li>
+              <li>• Dry exterior completely</li>
+              <li>• Wait before charging</li>
+            </ul>
+          </div>
+        </div>
       </main>
 
+      {/* Educational Sections */}
+      <section className="w-full bg-white border-t border-gray-100">
+        <div className="max-w-4xl mx-auto px-6 py-16">
+          <h2 className="text-3xl font-semibold mb-12 text-gray-900">Understanding Water Damage & Protection</h2>
+          
+          <div className="space-y-16">
+            <div>
+              <h3 className="text-xl font-medium mb-4 text-gray-900">How Our Water Ejector Works</h3>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                Using the same technology found in high-end smartphones, our water ejector tool emits precisely calibrated sound frequencies that create controlled vibrations in your device's speaker chamber. These vibrations effectively push out trapped water droplets, helping restore sound quality and prevent potential water damage.
+              </p>
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <h4 className="font-medium text-gray-900 mb-3">Key Benefits:</h4>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+                  <li>• Immediate results</li>
+                  <li>• No disassembly required</li>
+                  <li>• Safe for all devices</li>
+                  <li>• Prevents corrosion</li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-medium mb-4 text-gray-900">Device Compatibility</h3>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                Our water ejection tool is designed to work with all modern smartphones and devices with built-in speakers. Whether you have an iPhone, Samsung Galaxy, Google Pixel, or any other smartphone, our universal solution helps expel water effectively through your device's speaker system.
+              </p>
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <h4 className="font-medium text-gray-900 mb-3">Compatible Devices:</h4>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+                  <li>• iPhones (all models)</li>
+                  <li>• Android smartphones</li>
+                  <li>• Tablets & iPads</li>
+                  <li>• Smartwatches</li>
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-medium mb-4 text-gray-900">When to Seek Professional Help</h3>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                While our water ejection tool is highly effective for speaker water removal, some situations require professional attention. If your device has experienced severe water damage or shows signs of internal water penetration, we recommend consulting a professional repair service.
+              </p>
+              <div className="bg-gray-50 p-6 rounded-xl">
+                <h4 className="font-medium text-gray-900 mb-3">Warning Signs:</h4>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-600">
+                  <li>• Screen discoloration</li>
+                  <li>• Battery issues</li>
+                  <li>• Charging problems</li>
+                  <li>• Unresponsive buttons</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
-      <section className="w-full max-w-2xl mx-auto px-6 py-12">
-        <h2 className="text-2xl font-semibold mb-8 text-gray-900">Restore Sound. Protect Your Device.</h2>
+      <section className="w-full max-w-4xl mx-auto px-6 py-16">
+        <h2 className="text-3xl font-semibold mb-12 text-gray-900">Frequently Asked Questions</h2>
         <div className="space-y-8">
           <div>
-            <h3 className="text-lg font-medium mb-2 text-gray-900">How It Works</h3>
-            <p className="text-gray-600">
-              With a tap, waterinphone.com emits a finely tuned audio frequency designed to resonate within the speaker chamber. These precise vibrations push out trapped water, clearing your speaker components in seconds.
-
-              The result? Clearer sound, reduced risk of moisture damage, and peace of mind.
+            <h3 className="text-xl font-medium mb-4 text-gray-900">Is this safe for my device?</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Yes, our water ejection tool is completely safe. It uses the same technology as Apple's built-in water ejection feature found in Apple Watches. The sound waves are carefully calibrated to be effective yet harmless to your device's components.
             </p>
           </div>
+          
           <div>
-            <h3 className="text-lg font-medium mb-2 text-gray-900">What types of devices does this work with?</h3>
-            <p className="text-gray-600">
-              This water ejection tool is designed to work with a wide range of devices, including smartphones, tablets, laptops, and any device with built-in speakers. Whether you use an iPhone, Samsung Galaxy, Google Pixel, other Android devices, or even laptops, this universal solution helps expel water effectively through your device&apos;s speaker system.
+            <h3 className="text-xl font-medium mb-4 text-gray-900">How many times should I use it?</h3>
+            <p className="text-gray-600 leading-relaxed">
+              We recommend running the water ejection process 2-3 times or until you no longer see water droplets being expelled. If sound quality isn't fully restored after multiple attempts, wait 30 minutes and try again, as water may need time to settle.
             </p>
           </div>
+          
           <div>
-            <h3 className="text-lg font-medium mb-2 text-gray-900">Is it safe to use this water removal tool?</h3>
-            <p className="text-gray-600">
-              Yes, this tool is completely safe. It uses the same technology as Apple&apos;s built-in water ejection feature. The sound waves are harmless and can&apos;t damage your device&apos;s speaker or other components.
+            <h3 className="text-xl font-medium mb-4 text-gray-900">Does it work for salt water exposure?</h3>
+            <p className="text-gray-600 leading-relaxed">
+              While our tool can help remove salt water from speakers, we strongly recommend seeking professional service after salt water exposure. Salt water is highly corrosive and can cause permanent damage if not properly treated.
+            </p>
+          </div>
+          
+          <div>
+            <h3 className="text-xl font-medium mb-4 text-gray-900">What about other liquid types?</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Our tool works with any liquid, but sticky substances (soda, coffee, etc.) may require professional cleaning. After using the water ejector, we recommend cleaning the affected area with a slightly damp cloth to remove any residue.
             </p>
           </div>
         </div>
